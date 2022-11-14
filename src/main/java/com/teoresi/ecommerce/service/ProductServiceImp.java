@@ -46,4 +46,9 @@ public class ProductServiceImp implements ProductService{
             throw new IllegalArgumentException("Nessun prodotto con id "+id);
     }
 
+    @Override
+    public void save(Product product) {
+        productRepository.save(product);
+    }
+
 }
