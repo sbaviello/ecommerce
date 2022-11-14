@@ -8,6 +8,7 @@ import com.teoresi.ecommerce.service.OrderService;
 import com.teoresi.ecommerce.service.ProductService;
 import com.teoresi.ecommerce.service.UserServiceImpl;
 import org.hibernate.internal.util.StringHelper;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,13 +25,16 @@ public class UserRestController {
     private OrderService orderService;
 
     private ProductService productService;
+    private List<String> kafkaMessages;
 
     KafkaTemplate<String,String> kafkaTemplate;
 
-    public UserRestController(UserServiceImpl userserviceimpl, OrderService orderService, ProductService productService) {
+    public UserRestController(UserServiceImpl userserviceimpl, OrderService orderService, ProductService productService, KafkaTemplate kafkaTemplate, List<String> kafkaMessages) {
         this.userserviceimpl = userserviceimpl;
         this.orderService=orderService;
         this.productService=productService;
+        this.kafkaTemplate=kafkaTemplate;
+        this.kafkaMessages=kafkaMessages;
     }
 
     @GetMapping("/getUser")
@@ -86,6 +90,16 @@ public class UserRestController {
             productService.save(prodotto);
         }
         return "Acquisto avvenuto con successo";
+    }
+
+    @GetMapping("/kafka")
+    public List<String> messaggi(){
+        return kafkaMessages;
+    }
+
+    @KafkaListener(topics ="newprice",groupId = "groupId")
+    void  listener(String data){
+        kafkaMessages.add(data);
     }
 
 }
