@@ -44,12 +44,12 @@ public class AdminRestController {
 
     @DeleteMapping("/delete/{idProduct}")
     public String deleteProduct(@PathVariable long idProduct) {
-        /*Product product = webClientBuilder.build()
-                .get()
-                .uri("localhost:8081/api/shop/products/" + idProduct)
-                .retrieve().bodyToMono(Product.class).block();*/
+
         try {
-            Product product = this.productService.getById(idProduct);
+            Product product = webClientBuilder.build()
+                    .get()
+                    .uri("localhost:8080/api/shop/products/" + idProduct)
+                    .retrieve().bodyToMono(Product.class).block();
             this.productService.deleteById(idProduct);
             return "Prodotto con codice " + idProduct + " eliminato";
 
@@ -60,11 +60,10 @@ public class AdminRestController {
 
     @PutMapping("/update")
     public Product updateProduct(@RequestBody Product product) {
-        /*Product product = webClientBuilder.build()
+        Product oldProduct = webClientBuilder.build()
                 .get()
-                .uri("localhost:8081/api/shop/products/" + idProduct)
-                .retrieve().bodyToMono(Product.class).block();*/
-        Product oldProduct = this.productService.getById(product.getId());
+                .uri("localhost:8080/api/shop/products/" + product.getId())
+                .retrieve().bodyToMono(Product.class).block();
         if (oldProduct.getPrice() != product.getPrice()) {
             double oldPrice = oldProduct.getPrice();
             double newPrice = product.getPrice();
