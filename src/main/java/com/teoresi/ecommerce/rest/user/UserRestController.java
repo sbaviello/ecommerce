@@ -48,7 +48,6 @@ public class UserRestController {
         return user;
     }
 
-
     @PostMapping("/addUser")
     public User addUser(@RequestBody User user){
         userserviceimpl.saveUser(user);
