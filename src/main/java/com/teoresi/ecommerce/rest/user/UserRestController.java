@@ -68,16 +68,12 @@ public class UserRestController {
 
     @GetMapping("/cart")
     public List<Order> carrello(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User utente = (User) authentication.getPrincipal();
         List<Order> OrderList = orderService.getCart();
         return OrderList;
     }
 
     @GetMapping("/cart/buy")
     public String acquista(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User utente = (User) authentication.getPrincipal();
         List<Order> ordini = orderService.getCart();
 
         for(Order ordine : ordini){
