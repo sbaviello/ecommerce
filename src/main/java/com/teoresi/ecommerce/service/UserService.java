@@ -11,4 +11,5 @@ public interface UserService {
     public void saveUser(User user);
     public List<Object> isUserPresent(User user);
     public List<User> findAll();
+    User findById(long codice);
 }

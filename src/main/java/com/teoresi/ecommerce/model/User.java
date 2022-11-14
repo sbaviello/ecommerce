@@ -45,6 +45,19 @@ public class User implements UserDetails  {
     @Column(name = "enabled")
     private Boolean enabled = true;
 
+
+    public User(String nome, String cognome, String email, String password, Ruolo ruolo, Boolean locked, Boolean enabled) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.email = email;
+        this.password = password;
+        this.ruolo = ruolo;
+        this.locked = locked;
+        this.enabled = enabled;
+    }
+    public User() {
+    }
+
     public long getId() {
         return id;
     }

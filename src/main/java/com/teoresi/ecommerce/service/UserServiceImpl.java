@@ -50,6 +50,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User findById(long codice) {
+        return userRepository.findById(codice);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email).orElseThrow(
                 ()-> new UsernameNotFoundException(

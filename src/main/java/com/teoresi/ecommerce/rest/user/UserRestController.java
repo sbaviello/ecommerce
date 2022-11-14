@@ -3,9 +3,7 @@ package com.teoresi.ecommerce.rest.user;
 import com.teoresi.ecommerce.model.User;
 import com.teoresi.ecommerce.repository.UserRepository;
 import com.teoresi.ecommerce.service.UserServiceImpl;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
@@ -20,8 +18,23 @@ public class UserRestController {
         this.userserviceimpl = userserviceimpl;
     }
 
-    @GetMapping("/getUsers")
+    @GetMapping("/getUser")
     public List<User> getUsers(){
         return userserviceimpl.findAll();
     }
+
+    @GetMapping("/getUser/{codice}")
+    public User getuser(@PathVariable long codice){
+        User user = userserviceimpl.findById(codice);
+        return user;
+    }
+
+
+    @PostMapping("/addUser")
+    public User addUser(@RequestBody User user){
+        userserviceimpl.saveUser(user);
+        return user;
+    }
+
+
 }
