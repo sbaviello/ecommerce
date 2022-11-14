@@ -12,4 +12,7 @@ public interface ProductService {
     public List<Product> getByPriceLessThan(double price);
     public List<Product> getByCategory(String category);
     public Product getById(long id);
+    public void save(Product product);
+    public void deleteById(long id);
+
 }
