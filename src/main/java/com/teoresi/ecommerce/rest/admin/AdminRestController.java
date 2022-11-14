@@ -48,12 +48,13 @@ public class AdminRestController {
                 .get()
                 .uri("localhost:8081/api/shop/products/" + idProduct)
                 .retrieve().bodyToMono(Product.class).block();*/
-        Product product = this.productService.getById(idProduct);
-        if (product != null) {
+        try {
+            Product product = this.productService.getById(idProduct);
             this.productService.deleteById(idProduct);
             return "Prodotto con codice " + idProduct + " eliminato";
-        } else {
-            throw new RuntimeException("Nessun prodotto con id " + idProduct);
+
+        } catch (IllegalArgumentException ex) {
+            return ex.getMessage();
         }
     }
 
@@ -88,10 +89,17 @@ public class AdminRestController {
     }
 
     @KafkaListener(topics = {"ecommerce", "newuser"}, groupId = "groupId")
-    @GetMapping("/messages/last")
-    public String getLastMessage(String data) {
+    public void saveMessage(String data) {
         this.messages.add(data);
-        return "New message received: " + data;
+    }
+
+    @GetMapping("/messages/last")
+    public String getLastMessage() {
+        if (this.messages.size() > 0) {
+            return "Ultimo messaggio ricevuto: " + this.messages.get(this.messages.size()-1);
+        } else {
+            return "Nessun messaggio ricevuto nell'ultima sessione";
+        }
     }
 
     @GetMapping("/messages")
