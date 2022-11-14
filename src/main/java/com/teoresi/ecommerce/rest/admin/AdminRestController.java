@@ -50,7 +50,7 @@ public class AdminRestController {
                     .get()
                     .uri("localhost:8080/api/shop/products/" + idProduct)
                     .retrieve().bodyToMono(Product.class).block();
-            this.productService.deleteById(idProduct);
+            this.productService.deleteById(product.getId());
             return "Prodotto con codice " + idProduct + " eliminato";
 
         } catch (IllegalArgumentException ex) {
@@ -69,6 +69,7 @@ public class AdminRestController {
             double newPrice = product.getPrice();
             // manda messaggio
             String msg = "Product " + product.getId() + " has a new price: from € " + oldPrice + " to € " + newPrice;
+            System.out.println(msg);
             kafkaTemplate.send("newprice", product.getName() + ";" + oldPrice + ";" + newPrice);
         }
         this.productService.save(product);
