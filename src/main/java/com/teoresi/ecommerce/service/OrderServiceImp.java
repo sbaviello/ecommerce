@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class OrderServiceImp implements OrderService {
 
@@ -57,10 +58,10 @@ public class OrderServiceImp implements OrderService {
     public List<Order> getCart() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        Optional<ArrayList<Order>> res = orderRepository.findByCustomerAndStatus(user ,false);
-        if (res.isPresent()){
+        List<Order> res = orderRepository.findByCustomerAndStatus(user ,false);
+        if (res!=null){
             //System.out.println(res.get());
-            return res.get();
+            return res;
         } else
             throw new IllegalArgumentException("Errore in getCart() di OrderServiceImp");
     }

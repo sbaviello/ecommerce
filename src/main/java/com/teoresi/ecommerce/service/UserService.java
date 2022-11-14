@@ -12,4 +12,7 @@ public interface UserService {
     public List<Object> isUserPresent(User user);
 
     public List<User> getAllUsers();
+    public List<User> findAll();
+    User findById(long codice);
+    void save(User user);
 }

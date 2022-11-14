@@ -38,6 +38,6 @@ public class GestoreLoginEffettuato extends SimpleUrlAuthenticationSuccessHandle
         }else if(roles.contains("USER")) {
             url = "/riservata";
         }
-        return url;
+        return "hO LOGGATO";
     }
 }

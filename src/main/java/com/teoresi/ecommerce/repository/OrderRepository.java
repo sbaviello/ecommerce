@@ -13,6 +13,6 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    Optional<ArrayList<Order>> findByCustomerAndStatus(User user, boolean status);
     public List<Order> findAllByStatus(boolean status);
+    List<Order> findByCustomerAndStatus(User customer, boolean x);
 }
