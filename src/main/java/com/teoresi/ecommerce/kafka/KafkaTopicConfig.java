@@ -7,10 +7,14 @@ import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
 public class KafkaTopicConfig {
-
     @Bean
     public NewTopic administrationTopic() {
         return TopicBuilder.name("newprice")
+                .build();
+    }
+    @Bean
+    public NewTopic ecommerceTopic() {
+        return TopicBuilder.name("ecommerce")
                 .build();
     }
 }
