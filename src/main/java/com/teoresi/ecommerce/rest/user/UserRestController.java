@@ -8,6 +8,7 @@ import com.teoresi.ecommerce.service.OrderService;
 import com.teoresi.ecommerce.service.ProductService;
 import com.teoresi.ecommerce.service.UserServiceImpl;
 import org.hibernate.internal.util.StringHelper;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,8 @@ public class UserRestController {
     private OrderService orderService;
 
     private ProductService productService;
+
+    KafkaTemplate<String,String> kafkaTemplate;
 
     public UserRestController(UserServiceImpl userserviceimpl, OrderService orderService, ProductService productService) {
         this.userserviceimpl = userserviceimpl;
@@ -45,6 +48,7 @@ public class UserRestController {
     @PostMapping("/addUser")
     public User addUser(@RequestBody User user){
         userserviceimpl.saveUser(user);
+        kafkaTemplate.send("newuser", "Un nuovo utente e' stato registrato: "+user.getEmail());
         return user;
     }
 
