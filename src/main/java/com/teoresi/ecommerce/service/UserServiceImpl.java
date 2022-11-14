@@ -1,5 +1,6 @@
 package com.teoresi.ecommerce.service;
 
+import com.teoresi.ecommerce.model.Ruolo;
 import com.teoresi.ecommerce.model.User;
 import com.teoresi.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         //System.out.println("mail presente: "+existingUserEmail.isPresent());
         return Arrays.asList(userExists, message);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAllByRuolo(Ruolo.USER);
     }
 
     @Override

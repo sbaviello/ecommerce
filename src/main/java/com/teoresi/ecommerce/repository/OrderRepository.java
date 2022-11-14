@@ -8,9 +8,11 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
     Optional<ArrayList<Order>> findByCustomerAndStatus(User user, boolean status);
+    public List<Order> findAllByStatus(boolean status);
 }

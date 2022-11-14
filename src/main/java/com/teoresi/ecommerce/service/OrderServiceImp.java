@@ -4,6 +4,7 @@ import com.teoresi.ecommerce.model.Order;
 import com.teoresi.ecommerce.model.User;
 import com.teoresi.ecommerce.repository.OrderRepository;
 import com.teoresi.ecommerce.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -14,12 +15,24 @@ import java.util.Optional;
 
 @Service
 public class OrderServiceImp implements OrderService {
+
     private OrderRepository orderRepository;
     private ProductRepository productRepository;
 
-    public OrderServiceImp(OrderRepository orderRepository, ProductRepository productRepository) {
+    @Autowired
+    public OrderServiceImp(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+    }
+    @Override
+    public double getSales() {
+        List<Order> orders = orderRepository.findAllByStatus(true);
+        double totSales = 0.0;
+        for (Order o : orders) {
+            totSales += o.getTotalAmount();
+        }
+        return totSales;
+
     }
 
     @Override
