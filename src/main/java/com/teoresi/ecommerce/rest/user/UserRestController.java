@@ -71,7 +71,7 @@ public class UserRestController {
     public List<Order> carrello(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User utente = (User) authentication.getPrincipal();
-        List<Order> OrderList = orderService.Carrello(utente,false);
+        List<Order> OrderList = orderService.getCart();
         return OrderList;
     }
 
@@ -79,7 +79,7 @@ public class UserRestController {
     public String acquista(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User utente = (User) authentication.getPrincipal();
-        List<Order> ordini = orderService.Carrello(utente,false);
+        List<Order> ordini = orderService.getCart();
 
         for(Order ordine : ordini){
             ordine.setStatus(true);
